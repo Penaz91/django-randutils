@@ -35,9 +35,12 @@ class HtmlWrapperMiddleware:
                         sort_keys=True,
                         indent=4
                     )
-                else:
+                elif "text/html" not in response["Content-Type"]:
                     # Else just wrap it
                     content = response.content
+                else:
+                    # If it is HTML, just return it
+                    return response
                 response = HttpResponse(
                     f"<html><body><pre>{content}</pre></body></html>"
                 )
