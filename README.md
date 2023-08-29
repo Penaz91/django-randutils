@@ -11,6 +11,10 @@ In my work, I often find myself recycling pieces of other things I developed ove
 Content
 -------
 
+### Middlewares
+
+- **HtmlWrapperMiddleware:** Allows any kind of response to be wrapper into an HTML. This allows to analyze other types of response objects (like `JSONResponse`) with [Django Debug Toolbar](https://github.com/jazzband/django-debug-toolbar).
+
 ### Views
 
 - **SearchListView:** A subclass of Django's ListView that allows for searching via GET parameters.
