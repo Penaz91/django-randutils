@@ -63,6 +63,6 @@ class AdminTestCase(TestCase):
         Tests that the admin view is searchable and doesn't throw exceptions
         """
         url = reverse(rev, args=urlargs)
-        resp = self.client.get("%s?q=%s" % (url, "test"))
+        resp = self.client.get(f"{url}?q=tests")
         # Check the status Code
         self.assertIn(resp.status_code, (200, 403))
