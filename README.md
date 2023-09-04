@@ -18,3 +18,7 @@ Content
 ### Views
 
 - **SearchListView:** A subclass of Django's ListView that allows for searching via GET parameters.
+
+### Testing
+
+- **AdminTestCase:** A testcase that automatically finds all admin urls and builds tests for changelist viewing and searching. **Requires [parameterized](https://pypi.org/project/parameterized/)
