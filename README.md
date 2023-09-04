@@ -21,4 +21,4 @@ Content
 
 ### Testing
 
-- **AdminTestCase:** A testcase that automatically finds all admin urls and builds tests for changelist viewing and searching. **Requires [parameterized](https://pypi.org/project/parameterized/)
+- **AdminTestCase:** A testcase that automatically finds all admin urls and builds tests for changelist viewing and searching. **Requires [parameterized](https://pypi.org/project/parameterized/)**
