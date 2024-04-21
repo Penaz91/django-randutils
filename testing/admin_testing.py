@@ -12,19 +12,6 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.admin.sites import all_sites
 from django.contrib.auth import get_user_model
-from parameterized import parameterized
-
-
-PARAMS = [
-    (
-        f"{site.name}_{str(model_admin).replace('.', '_')}",
-        f"{site.name}:{model._meta.app_label}_{model._meta.model_name}_{page}",
-        []
-    )
-    for page in ("changelist", "add")
-    for site in all_sites
-    for model, model_admin in site._registry.items()
-]
 
 
 class AdminTestCase(TestCase):
@@ -47,22 +34,44 @@ class AdminTestCase(TestCase):
             password="testpass"
         )
 
-    @parameterized.expand(PARAMS)
-    def test_admin_view(self, name, rev, urlargs):
+    def test_admin_view(self):
         """
         Tests that the admin view is viewable and doesn't throw exceptions
         """
-        url = reverse(rev, args=urlargs)
-        resp = self.client.get(url)
-        # Check the status Code
-        self.assertIn(resp.status_code, (200, 403))
+        admins = [
+            (
+                f"{site.name}_{str(model_admin).replace('.', '_')}",
+                f"{site.name}:{model._meta.app_label}_{model._meta.model_name}_{page}",
+                []
+            )
+            for page in ("changelist", "add")
+            for site in all_sites
+            for model, model_admin in site._registry.items()
+        ]
+        for name, rev, args in admins:
+            with self.subTest(f"Testing admin view {name} with args {args}"):
+                url = reverse(rev, args=args)
+                resp = self.client.get(url)
+                # Check the status Code
+                self.assertIn(resp.status_code, (200, 403))
 
-    @parameterized.expand(PARAMS)
-    def test_admin_search(self, name, rev, urlargs):
+    def test_admin_search(self):
         """
         Tests that the admin view is searchable and doesn't throw exceptions
         """
-        url = reverse(rev, args=urlargs)
-        resp = self.client.get(f"{url}?q=tests")
-        # Check the status Code
-        self.assertIn(resp.status_code, (200, 403))
+        admins = [
+            (
+                f"{site.name}_{str(model_admin).replace('.', '_')}",
+                f"{site.name}:{model._meta.app_label}_{model._meta.model_name}_{page}",
+                []
+            )
+            for page in ("changelist", "add")
+            for site in all_sites
+            for model, model_admin in site._registry.items()
+        ]
+        for name, rev, args in admins:
+            with self.subTest(f"Testing admin view {name} with args {args}"):
+                url = reverse(rev, args=args)
+                resp = self.client.get(f"{url}?q=tests")
+                # Check the status Code
+                self.assertIn(resp.status_code, (200, 403))
